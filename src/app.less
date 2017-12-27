@@ -1,0 +1,93 @@
+article, aside, figure, figcaption,  footer, header, main, nav, section, summary{
+    display: block;
+}
+body{
+    transition: 1s;
+}
+body, div, dt, dl, dd, ul, ol, li, h1, h2, h3, h4, h5, input, form, a, p, textarea{
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑', consolas;
+}
+ol, ul, li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    display: block;
+}
+img{
+    border: none;
+    display: block;
+}
+.clearfloat{
+    zoom: 1;
+}
+.clearfloat:after{
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0;
+}
+.container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    text-align: center;
+    height: 720px;
+    justify-content: center;
+    font-size: xx-large;
+    color: #fff;
+    text-shadow: 0 0 15px #000;
+    font-family: consolas,"微软雅黑";
+}
+#canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+span {
+    background: #58D68D;
+    padding: 0 0.5em;
+    border-radius: 20px;
+    text-shadow: none;
+}
+.main{
+    font-size: 3.5em;
+}
+.container-row{
+    display: flex;
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    justify-content: space-around;
+    text-align: center;
+    line-height: 30px;
+    font-size: 1em;
+    color: #297FB8;
+    font-weight: bold;
+    z-index: 100;
+}
+.container-row .btn{
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    box-shadow: 0 0 5px #000;
+    opacity: 0.5;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.container-row .btn:hover{
+    opacity: 1;
+}
+#main{
+    transition: 1s;
+}
+#con{
+    overflow: hidden;
+}
