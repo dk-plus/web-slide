@@ -1,25 +1,27 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
-    entry: "./src/app.js",
+    entry: "./src/index.js",
     output: {
-        filename: "./dist/build.js"
+        path: __dirname + '/dist',
+        filename: "build.js"
     },
     watch: true,
     module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: ['style-loader','css-loader']
-            },
-            {
-                test: /\.less$/,
-                use: [{
-                    loader: 'style-loader'
-                },{
-                    loader: 'css-loader'
-                },{
-                    loader: 'less-loader'
-                }]
-            }
-        ]
-    }
+        rules: [{
+            test: /\.less$/,
+            use: ExtractTextPlugin({
+                use: ['css-loader', 'less-loader'],
+                fallback: 'style-loader'
+            })
+        }]
+    },
+    plugins: [
+        new ExtractTextPlugin('style.css'),
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './src/index.html'
+        })
+    ]
 }
