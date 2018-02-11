@@ -1,9 +1,13 @@
-const animate = require('./animate.js');
-const slide = require('./slide.js');
+const Play = require('./controller/play');
+const Render = require('./module/render');
 
-require('./less');
+require('./reset.less');
+require('./index.less');
 
-(function() {
-    animate.initAnimate();
-    slide.init();
-})()
+const init = (function(){
+    console.log('hello web-slide');
+    Play.init();
+    Render.init();
+})();
+
+init;
