@@ -36,6 +36,9 @@ const _config = {
             }
         ]
     },
+    node: {
+        fs: 'empty'
+    },
     plugins: [
         extractLess,
         htmlExtract
