@@ -5,11 +5,25 @@
  * author: dkplus <dkplus.js@gmail.com>
  */
 const $ = require('jquery');
-const tpl = require('../view/view');
+const artT = require('art-template/dist/template.js');
+
+var data = require('./data.json');
+
+function renderHtml() {
+    const tpl = require('../view/view.tpl')();
+    const renderer = artT.compile(tpl);
+
+    const obj = {
+        data: data
+    }
+
+    var html = renderer(obj);
+    $('.container').html(html);
+}
 const render = {
     init: () => {
+        renderHtml();
         console.log('render');
-        $('.container').html(tpl);
     }
 }
 module.exports = render;

@@ -33,6 +33,18 @@ const _config = {
                         presets: ['env']
                     }
                 }
+            },
+            {
+                test: /\.tpl$/,
+                use: {
+                    loader: 'ejs-loader'
+                }
+            },
+            {
+                test: /\.json$/,
+                use: {
+                    loader: 'json-loader'
+                }
             }
         ]
     },

@@ -12,8 +12,10 @@ require('./reset.less');
 require('./index.less');
 
 const init = (function(){
+    console.time('初始化耗时：');
     console.log('hello web-slide');
     console.log($);
     Play.init();
     Render.init();
+    console.timeEnd('初始化耗时：');
 })();
