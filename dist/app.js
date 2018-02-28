@@ -10499,6 +10499,7 @@ module.exports = play;
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(4);
 
+//引入ppt内容
 var data = __webpack_require__(5);
 
 function renderHtml() {
@@ -10532,7 +10533,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!art-template - Template Engine | http://aui
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = {"title":"dkplus","content":{"msg":[1,2,3,4]}}
+module.exports = [{"title":"dkplus","sub_title":"123","detail":["para1","para2","para3","para4"],"ol":["first","second","third","forth"],"ul":["first","second","third","forth"],"gallery":[{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"}]},{"title":"dkplus","sub_title":"123","detail":["para1","para2","para3","para4"],"gallery":[{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"}]}]
 
 /***/ }),
 /* 6 */
@@ -10542,7 +10543,7 @@ module.exports = function (obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '<h1 data-value={{data.title}}>{{data.title}}</h1>\r\n<div data-value={{data.content}}>\r\n  {{each data.content.msg as item i}}\r\n  <p data-value={{item}}>{{item}}</p>\r\n  {{/each}}\r\n</div>';
+__p += '{{each data as item index}}\r\n<div class="page" data-page={{index}}>\r\n  {{if item.title}}\r\n    <h2 class="title">{{item.title}}</h2>\r\n  {{/if}}\r\n\r\n  {{if item.sub_title}}\r\n    <h3 class="sub-title">{{item.sub_title}}</h3>\r\n  {{/if}}\r\n\r\n  {{if item.detail}}\r\n    {{each item.detail as detail}}\r\n      <p class="detail">{{detail}}</p>\r\n    {{/each}}\r\n  {{/if}}\r\n\r\n  {{if item.ol}}\r\n    <ol class="ol">\r\n      {{each item.ol as ol}}\r\n        <li>{{ol}}</li>\r\n      {{/each}}\r\n    </ol>\r\n  {{/if}}\r\n\r\n  {{if item.ul}}\r\n    <ul class="ul">\r\n      {{each item.ul as ul}}\r\n        <li>{{ul}}</li>\r\n      {{/each}}\r\n    </ul>\r\n  {{/if}}\r\n\r\n  {{if item.gallery}}\r\n    <div class="gallery">\r\n    {{each item.gallery as gallery}}\r\n      <img src="{{gallery.img_url}}" alt="{{gallery.data_img}}">\r\n    {{/each}}\r\n    </div>\r\n  {{/if}}\r\n\r\n</div>\r\n{{/each}}';
 
 }
 return __p

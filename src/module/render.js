@@ -7,6 +7,7 @@
 const $ = require('jquery');
 const artT = require('art-template/dist/template.js');
 
+//引入ppt内容
 var data = require('./data.json');
 
 function renderHtml() {
