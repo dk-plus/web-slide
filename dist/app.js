@@ -10450,14 +10450,16 @@ return jQuery;
 var $ = __webpack_require__(0);
 var Play = __webpack_require__(2);
 var Render = __webpack_require__(3);
+var Rem = __webpack_require__(18);
 
-__webpack_require__(7);
-__webpack_require__(8);
+__webpack_require__(14);
+__webpack_require__(15);
 
 var init = function () {
     console.time('初始化耗时：');
     console.log('%cweb-slide 1.0.0', "background:#4dc71f;height:2rem;line-height:2rem;font-size:1rem;font-weight:bold;color:#fff;border:2px solid #b7f79f;border-radius:30px;padding:0 10px;text-shadow:0 0 5px #000");
     console.log($);
+    Rem.init();
     Play.init();
     Render.init();
     console.timeEnd('初始化耗时：');
@@ -10511,7 +10513,7 @@ function renderHtml() {
     };
 
     var html = renderer(obj);
-    $('.container').html(html);
+    $('.pages').html(html);
 }
 var render = {
     init: function init() {
@@ -10533,7 +10535,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*!art-template - Template Engine | http://aui
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = [{"title":"dkplus","sub_title":"123","detail":["para1","para2","para3","para4"],"ol":["first","second","third","forth"],"ul":["first","second","third","forth"],"gallery":[{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"}]},{"title":"dkplus","sub_title":"123","detail":["para1","para2","para3","para4"],"gallery":[{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"}]}]
+module.exports = [{"title":"dkplus","sub_title":"web-slide","detail":["para1","para2","para3","para4"]},{"title":"dkplus","sub_title":"web-slide","ol":["para1","para2","para3","para4"]},{"title":"dkplus","sub_title":"web-slide","ul":["para1","para2","para3","para4"]},{"title":"dkplus","sub_title":"123","gallery":[{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"},{"img_url":"122","data_img":"11"}]}]
 
 /***/ }),
 /* 6 */
@@ -10550,16 +10552,67 @@ return __p
 }
 
 /***/ }),
-/* 7 */
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 8 */
+/* 15 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */,
+/* 17 */,
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(0);
+
+var _e = {};
+
+var PSD_WIDTH = 720;
+var FONT_SIZE = 50;
+var TIMES = 2;
+var clientWidth = document.documentElement.clientWidth;
+
+function init(psdWidth, fontSize, times) {
+    if (psdWidth) {
+        PSD_WIDTH = psdWidth;
+    }
+    if (fontSize) {
+        FONT_SIZE = fontSize;
+    }
+    if (times) {
+        TIMES = times;
+    }
+
+    setFontSize();
+
+    window.onresize = function () {
+        setFontSize();
+    };
+}
+function setFontSize() {
+    clientWidth = document.documentElement.clientWidth;
+    document.documentElement.style.fontSize = clientWidth / (PSD_WIDTH / TIMES) * FONT_SIZE + 'px';
+}
+
+module.exports = {
+    init: init
+};
 
 /***/ })
 /******/ ]);

@@ -7,14 +7,16 @@
 const $ = require('jquery');
 const Play = require('./controller/play');
 const Render = require('./module/render');
+const Rem = require('./view/rem');
 
-require('./reset.less');
-require('./index.less');
+require('./view/reset.less');
+require('./view/index.less');
 
 const init = (function(){
     console.time('初始化耗时：');
     console.log('%cweb-slide 1.0.0',"background:#4dc71f;height:2rem;line-height:2rem;font-size:1rem;font-weight:bold;color:#fff;border:2px solid #b7f79f;border-radius:30px;padding:0 10px;text-shadow:0 0 5px #000");
     console.log($);
+    Rem.init();
     Play.init();
     Render.init();
     console.timeEnd('初始化耗时：');

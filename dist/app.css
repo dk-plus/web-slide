@@ -35,11 +35,6 @@ textarea {
   padding: 0;
   font-family: '\5FAE\8F6F\96C5\9ED1', consolas;
 }
-ol,
-ul,
-li {
-  list-style: none;
-}
 a {
   text-decoration: none;
   display: block;
@@ -58,9 +53,76 @@ img {
   visibility: hidden;
   height: 0;
 }
-h1 {
-  color: red;
+* {
+  font-size: 0.14rem;
+  line-height: 1.428;
+  transition: 0.5s;
 }
-*[data-value=undefined] {
-  display: none;
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+.pages {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.page .title {
+  font-size: 0.3rem;
+  font-weight: 500;
+}
+.page .sub-title {
+  font-size: 0.24rem;
+  font-weight: 500;
+  color: #777;
+}
+.page .gallery {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.btn-group {
+  position: absolute;
+  top: auto;
+  bottom: 0.2rem;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 1rem;
+  height: 0.4rem;
+}
+.btn-group > * {
+  cursor: pointer;
+  height: 0.2rem;
+  width: 0.2rem;
+  border: 1px solid black;
+  line-height: 0.2rem;
+  border-radius: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  opacity: 0.5;
+}
+.btn-group > *:hover {
+  transform: scale(1.5);
+  opacity: 1;
 }

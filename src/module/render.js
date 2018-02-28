@@ -19,7 +19,7 @@ function renderHtml() {
     }
 
     var html = renderer(obj);
-    $('.container').html(html);
+    $('.pages').html(html);
 }
 const render = {
     init: () => {

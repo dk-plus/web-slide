@@ -1,37 +1,49 @@
 [
   {
     "title": "dkplus",
-    "sub_title": "web-slide",
+    "sub_title": "123",
     "detail": [
       "para1",
       "para2",
       "para3",
       "para4"
-    ]
-  },
-  {
-    "title": "dkplus",
-    "sub_title": "web-slide",
+    ],
     "ol": [
-      "para1",
-      "para2",
-      "para3",
-      "para4"
-    ]
-  },
-  {
-    "title": "dkplus",
-    "sub_title": "web-slide",
+      "first",
+      "second",
+      "third",
+      "forth"
+    ],
     "ul": [
-      "para1",
-      "para2",
-      "para3",
-      "para4"
+      "first",
+      "second",
+      "third",
+      "forth"
+    ],
+    "gallery": [
+      {
+        "img_url": "122",
+        "data_img": "11"
+      },
+      {
+        "img_url": "122",
+        "data_img": "11"
+      },
+      {
+        "img_url": "122",
+        "data_img": "11"
+      }
     ]
   },
   {
     "title": "dkplus",
     "sub_title": "123",
+    "detail": [
+      "para1",
+      "para2",
+      "para3",
+      "para4"
+    ],
     "gallery": [
       {
         "img_url": "122",

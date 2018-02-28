@@ -1,0 +1,54 @@
+@import './util.less';
+
+* {
+  font-size: 0.14rem;
+  line-height: 1.428;
+  transition: 0.5s;
+}
+.container {
+  .absolute-class(0,0,0,0);
+  overflow: hidden;
+}
+.pages {
+  .absolute-class(0,0,0,0);
+}
+.page {
+  .flex();
+  width: 100%;
+  height: 100%;
+  .title {
+    font-size: 0.3rem;
+    font-weight: 500;
+  }
+  .sub-title {
+    font-size: 0.24rem;
+    font-weight: 500;
+    color: #777;
+  }
+  .gallery {
+    .flex(row);
+  }
+}
+.btn-group {
+  .absolute-class(auto,0.2rem,0,0);
+  .center();
+  .flex(row);
+  justify-content: space-around;
+  width: 1rem;
+  height: 0.4rem;
+  > * {
+    cursor: pointer;    
+    height: 0.2rem;
+    width: 0.2rem;
+    border: 1px solid black;
+    line-height: 0.2rem;
+    border-radius: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    opacity: 0.5;
+  }
+  > *:hover {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
