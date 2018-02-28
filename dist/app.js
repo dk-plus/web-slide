@@ -10458,10 +10458,10 @@ __webpack_require__(15);
 var init = function () {
     console.time('初始化耗时：');
     console.log('%cweb-slide 1.0.0', "background:#4dc71f;height:2rem;line-height:2rem;font-size:1rem;font-weight:bold;color:#fff;border:2px solid #b7f79f;border-radius:30px;padding:0 10px;text-shadow:0 0 5px #000");
-    console.log($);
-    Rem.init();
-    Play.init();
+    // console.log($);
     Render.init();
+    Rem.init();
+    // Play.init();
     console.timeEnd('初始化耗时：');
 }();
 
@@ -10478,9 +10478,69 @@ var init = function () {
  * date: 2018-02-12
  * author: dkplus <dkplus.js@gmail.com>
  */
+var $ = __webpack_require__(0);
+
+var _opt = {
+    prev: '.prev',
+    next: '.next',
+    page: '.page',
+    pages: '.pages'
+};
+
+var curIdx = 0;
+var prevIdx = curIdx - 1;
+var nextIdx = curIdx + 1;
+var pageLen;
+var docHeight = getDocHeight();
+
+function getDocHeight() {
+    var docHeight = document.body.scrollHeight || document.documentElement.scrollHeight;
+    return docHeight;
+}
+
+function changePage() {
+    prevIdx = curIdx - 1;
+    nextIdx = curIdx + 1;
+    $(_opt.pages).css({
+        transform: 'translateY(' + curIdx * -docHeight + 'px)'
+    });
+}
+
+function prev() {
+    if (prevIdx < 0) {
+        console.log(curIdx, '已经是第一页了');
+        return;
+    }
+    // console.log(curIdx,curIdx-1);
+    curIdx--;
+    changePage();
+}
+
+function next() {
+    if (nextIdx >= pageLen) {
+        console.log(curIdx, '已经是最后一页了');
+        return;
+    }
+    // console.log(curIdx,curIdx+1);
+    curIdx++;
+    changePage();
+}
+
 var play = {
     init: function init() {
-        console.log('play');
+        // console.log('play');
+        pageLen = $(_opt.page).length;
+        // console.log(pageLen);
+
+        $(_opt.prev).on('click', function () {
+            prev();
+        });
+        $(_opt.next).on('click', function () {
+            next();
+        });
+        $(window).on('resize', function () {
+            docHeight = getDocHeight();
+        });
     }
 };
 module.exports = play;
@@ -10500,6 +10560,7 @@ module.exports = play;
  */
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(4);
+var Play = __webpack_require__(2);
 
 //引入ppt内容
 var data = __webpack_require__(5);
@@ -10518,7 +10579,8 @@ function renderHtml() {
 var render = {
     init: function init() {
         renderHtml();
-        console.log('render');
+        // console.log('render');
+        Play.init();
     }
 };
 module.exports = render;

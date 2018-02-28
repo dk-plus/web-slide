@@ -6,6 +6,7 @@
  */
 const $ = require('jquery');
 const artT = require('art-template/dist/template.js');
+const Play = require('../controller/play');
 
 //引入ppt内容
 var data = require('./data.json');
@@ -24,7 +25,8 @@ function renderHtml() {
 const render = {
     init: () => {
         renderHtml();
-        console.log('render');
+        // console.log('render');
+        Play.init();
     }
 }
 module.exports = render;
