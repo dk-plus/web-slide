@@ -4,7 +4,6 @@
   "description": "this is a simple slide running on browser.",
   "main": "index.js",
   "scripts": {
-    "i": "npm install",
     "dev": "webpack -w --progress",
     "prod": "webpack -p"
   },

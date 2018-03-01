@@ -6,6 +6,7 @@
  */
 const $ = require('jquery');
 
+// 配置
 var _opt = {
     prev: '.prev',
     next: '.next',

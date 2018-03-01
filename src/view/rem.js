@@ -1,3 +1,6 @@
+/**
+ * rem字体大小适配
+ */
 const $ = require('jquery');
 
 var _e = {};
