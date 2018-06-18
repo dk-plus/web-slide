@@ -1,0 +1,45 @@
+@import '../../../statics/styles/common.less';
+
+.nav {
+  .absolute-class(50%, 60px, initial,0,0,-15px);
+  position: fixed;
+  margin: 0 auto;
+  // overflow-x: scroll;
+  display: flex;
+  .nav-arrow {
+    color: #ccc;
+    cursor: pointer;
+    &:hover {
+      color: #777;
+    }
+  }
+  .nav-index {
+    width: 100%;
+    overflow-x: scroll;
+    .nav-items {
+      display: flex;
+      justify-content: space-between;
+      width: max-content;
+      margin: 0 auto;
+      .nav-item {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        line-height: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #fff;
+        margin: 0 5px;
+        background: #ccc;
+        transition: 0.1s;
+        &:hover {
+          background: #777;
+          transform-origin: top;
+        }
+      }
+      .active {
+        background: #333;
+      }
+    }
+  }
+}

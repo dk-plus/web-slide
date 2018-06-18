@@ -130,6 +130,334 @@ img {
 .content .exp .ul-list .item:hover {
   background: #ebebeb;
 }
-div {
-  color: red;
+.slides {
+  width: 100%;
+  height: 100%;
+}
+.slides .slide {
+  width: 100%;
+  height: 100%;
+}
+* {
+  font-size: 16px;
+}
+article,
+aside,
+figure,
+figcaption,
+footer,
+header,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+body,
+div,
+dt,
+dl,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+input,
+form,
+a,
+p,
+textarea {
+  margin: 0;
+  padding: 0;
+  font-family: '\5FAE\8F6F\96C5\9ED1', consolas;
+}
+li {
+  margin-left: 15px;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+img {
+  border: none;
+  display: block;
+}
+.content .info-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .info-list .item:hover {
+  background: #ebebeb;
+}
+.content .skill-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .skill-list .item:hover {
+  background: #ebebeb;
+}
+.content .tag-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.content .tag-list .item {
+  background: #ebebeb;
+  border-radius: 3px;
+  transition: 0.3s;
+  color: #333;
+  padding: 2px;
+  margin: 3px;
+}
+.content .tag-list .item:hover {
+  background: #c2c2c2;
+  color: #222;
+}
+.content .exp {
+  margin: 7px;
+}
+.content .exp .main {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #333;
+  font-size: 18px;
+  margin: 5px 0;
+}
+.content .exp .para {
+  margin: 5px 0;
+}
+.content .exp .ol-list {
+  margin: 5px 0;
+}
+.content .exp .ol-list .item {
+  margin: 2px 0;
+  margin-left: 15px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .exp .ol-list .item:hover {
+  background: #ebebeb;
+}
+.content .exp .ul-list {
+  margin: 5px 0;
+}
+.content .exp .ul-list .item {
+  margin: 2px 0;
+  margin-left: 15px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .exp .ul-list .item:hover {
+  background: #ebebeb;
+}
+.nav {
+  position: absolute;
+  width: 50%;
+  height: 60px;
+  top: initial;
+  left: 0;
+  right: 0;
+  bottom: -15px;
+  position: fixed;
+  margin: 0 auto;
+  display: flex;
+}
+.nav .nav-arrow {
+  color: #ccc;
+  cursor: pointer;
+}
+.nav .nav-arrow:hover {
+  color: #777;
+}
+.nav .nav-index {
+  width: 100%;
+  overflow-x: scroll;
+}
+.nav .nav-index .nav-items {
+  display: flex;
+  justify-content: space-between;
+  width: max-content;
+  margin: 0 auto;
+}
+.nav .nav-index .nav-items .nav-item {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  line-height: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  margin: 0 5px;
+  background: #ccc;
+  transition: 0.1s;
+}
+.nav .nav-index .nav-items .nav-item:hover {
+  background: #777;
+  transform-origin: top;
+}
+.nav .nav-index .nav-items .active {
+  background: #333;
+}
+* {
+  font-size: 16px;
+}
+article,
+aside,
+figure,
+figcaption,
+footer,
+header,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+body,
+div,
+dt,
+dl,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+input,
+form,
+a,
+p,
+textarea {
+  margin: 0;
+  padding: 0;
+  font-family: '\5FAE\8F6F\96C5\9ED1', consolas;
+}
+li {
+  margin-left: 15px;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+img {
+  border: none;
+  display: block;
+}
+.content .info-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .info-list .item:hover {
+  background: #ebebeb;
+}
+.content .skill-list .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .skill-list .item:hover {
+  background: #ebebeb;
+}
+.content .tag-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.content .tag-list .item {
+  background: #ebebeb;
+  border-radius: 3px;
+  transition: 0.3s;
+  color: #333;
+  padding: 2px;
+  margin: 3px;
+}
+.content .tag-list .item:hover {
+  background: #c2c2c2;
+  color: #222;
+}
+.content .exp {
+  margin: 7px;
+}
+.content .exp .main {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #333;
+  font-size: 18px;
+  margin: 5px 0;
+}
+.content .exp .para {
+  margin: 5px 0;
+}
+.content .exp .ol-list {
+  margin: 5px 0;
+}
+.content .exp .ol-list .item {
+  margin: 2px 0;
+  margin-left: 15px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .exp .ol-list .item:hover {
+  background: #ebebeb;
+}
+.content .exp .ul-list {
+  margin: 5px 0;
+}
+.content .exp .ul-list .item {
+  margin: 2px 0;
+  margin-left: 15px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #333;
+  transition: 0.2s;
+}
+.content .exp .ul-list .item:hover {
+  background: #ebebeb;
+}
+#global-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  overflow: hidden;
 }

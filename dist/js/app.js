@@ -73,6 +73,9 @@
 var $ = __webpack_require__(1);
 var artT = __webpack_require__(2);
 
+var Slide = __webpack_require__(14);
+var Nav = __webpack_require__(21);
+
 __webpack_require__(8);
 
 !function () {
@@ -90,6 +93,8 @@ __webpack_require__(8);
   }
   function init() {
     render();
+    Slide.init();
+    Nav.init();
   }
   init();
 }();
@@ -11762,7 +11767,270 @@ module.exports = function (obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '<div>{{title}}</div>';
+__p += '<div id="global-wrapper">\r\n  <div class="slides"></div>\r\n  <div class="nav"></div>\r\n</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(1);
+var artT = __webpack_require__(2);
+
+var Config = __webpack_require__(18);
+
+__webpack_require__(15);
+
+var Slide = function () {
+  var _e = {
+    wrapper: '.slides'
+  };
+
+  var data = {};
+
+  _e.init = function () {
+    initConfig();
+    render();
+  };
+
+  function initConfig() {
+    $.extend(data, Config);
+  }
+
+  function render() {
+    var tpl = __webpack_require__(16)();
+    var tplRender = artT.compile(tpl);
+    $(_e.wrapper).html(tplRender(data));
+  }
+
+  return _e;
+}();
+
+module.exports = Slide;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '{{each slides as item index}}\r\n<div class="slide" id="page-{{index+1}}">\r\n  <h1>{{item.title}}</h1>\r\n  <p>{{item.content}}</p>\r\n</div>\r\n{{/each}}';
+
+}
+return __p
+}
+
+/***/ }),
+/* 17 */,
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(1);
+var SlideContent = __webpack_require__(20);
+
+var Config = {};
+$.extend(Config, SlideContent);
+
+module.exports = Config;
+
+/***/ }),
+/* 19 */,
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var SlideContent = {
+  slides: [{
+    title: 'hello world1',
+    content: 'hey, this is web-slide'
+  }, {
+    title: 'hello world2',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world3',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world1',
+    content: 'hey, this is web-slide'
+  }, {
+    title: 'hello world2',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world3',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world1',
+    content: 'hey, this is web-slide'
+  }, {
+    title: 'hello world2',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world3',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world1',
+    content: 'hey, this is web-slide'
+  }, {
+    title: 'hello world2',
+    content: 'this is web-slide'
+  }, {
+    title: 'hello world3',
+    content: 'this is web-slide'
+  }]
+};
+
+module.exports = SlideContent;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(1);
+var artT = __webpack_require__(2);
+
+var Config = __webpack_require__(18);
+
+__webpack_require__(22);
+
+var Nav = function () {
+  var _e = {
+    wrapper: '.nav',
+    navIndex: '.nav-index',
+    item: {
+      ele: '.nav-item'
+    },
+    arrow: {
+      prev: '.prev',
+      next: '.next'
+    }
+  };
+
+  var data = {
+    nav: []
+  };
+
+  _e.init = function () {
+    initConfig();
+    initNav(data.slides.length);
+    render();
+
+    $(_e.item.ele).on('click', function () {
+      refreshNav();
+    });
+
+    $(_e.arrow.prev).on('click', function () {
+      prev();
+    });
+
+    $(_e.arrow.next).on('click', function () {
+      next();
+    });
+  };
+
+  function initConfig() {
+    $.extend(data, Config);
+  }
+
+  function initNav(length) {
+    for (var i = 0; i < length; i++) {
+      data.nav.push(1);
+    }
+    refreshNav();
+  }
+
+  /**
+   * 导航页翻页
+   */
+  function prev() {
+    var width = $(_e.navIndex).width();
+    var offset = $(_e.navIndex).scrollLeft() - width / 2;
+    $(_e.navIndex).scrollLeft(offset);
+  }
+
+  function next() {
+    var width = $(_e.navIndex).width();
+    var offset = $(_e.navIndex).scrollLeft() + width / 2;
+    $(_e.navIndex).scrollLeft(offset);
+  }
+
+  /**
+   * 按钮根据hash刷新激活状态
+   */
+  function refreshNav() {
+    setTimeout(function () {
+      var ele = location.hash.split('#')[1] || 'page-1';
+      var dataEle = '[data-page=' + ele + ']';
+      refresh(dataEle);
+    }, 0);
+  }
+
+  function refresh(ele) {
+    process();
+    activate(ele);
+  }
+
+  function process() {
+    $(_e.item.ele).each(function (index, item) {
+      $(item).removeClass('active');
+    });
+  }
+
+  function activate(ele) {
+    $(ele).addClass('active');
+  }
+
+  function render() {
+    var tpl = __webpack_require__(23)();
+    var tplRender = artT.compile(tpl);
+    $(_e.wrapper).html(tplRender(data));
+  }
+
+  return _e;
+}();
+
+module.exports = Nav;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '\r\n<div class="prev nav-arrow">◀</div>\r\n<div class="nav-index">\r\n  <div class="nav-items">\r\n    {{each nav as item index}}\r\n      <a href="#page-{{index+1}}" class="nav-item" data-page="page-{{index+1}}">\r\n        {{index+1}}\r\n      </a>\r\n    {{/each}}\r\n  </div>\r\n</div>\r\n<div class="next nav-arrow">▶</div>';
 
 }
 return __p

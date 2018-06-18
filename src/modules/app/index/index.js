@@ -1,6 +1,9 @@
 const $ = require('jquery');
 const artT = require('art-template');
 
+const Slide = require('../../components/slide/slide.js');
+const Nav = require('../../components/nav/nav.js');
+
 require('./index.less');
 
 !(() => {
@@ -28,6 +31,8 @@ require('./index.less');
   }
   function init() {
     render();
+    Slide.init();
+    Nav.init();
   }
   init();
 })();

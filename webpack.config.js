@@ -2,7 +2,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlExtract = require('html-webpack-plugin');
 
 const extractLess = new ExtractTextPlugin({
-    filename: '/css/app.css'
+    filename: './css/app.css'
 });
 const htmlExtract = new HtmlExtract({
     filename: './index.html',
@@ -52,7 +52,7 @@ const _config = {
                     loader: 'file-loader',
                     options: {
                         limit: 8192,
-                        name: '/img/[name].[ext]'
+                        name: './img/[name].[ext]'
                     }
                 }
             }
