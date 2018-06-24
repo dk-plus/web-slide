@@ -3,6 +3,10 @@ const artT = require('art-template');
 
 const Slide = require('../../components/slide/slide.js');
 const Nav = require('../../components/nav/nav.js');
+const Page = require('../../lib/page.js');
+const PlayButton = require('../../components/play_button/play_button.js');
+
+const SlideConfig = require('../../../config/slide.config.js');
 
 require('./index.less');
 
@@ -32,7 +36,9 @@ require('./index.less');
   function init() {
     render();
     Slide.init();
-    Nav.init();
+    Page.init();
+    SlideConfig.playBtns.show && PlayButton.init();
+    SlideConfig.nav.show && Nav.init();
   }
   init();
 })();

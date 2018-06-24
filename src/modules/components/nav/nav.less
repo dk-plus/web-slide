@@ -6,6 +6,7 @@
   margin: 0 auto;
   // overflow-x: scroll;
   display: flex;
+  user-select: none;
   .nav-arrow {
     color: #ccc;
     cursor: pointer;
@@ -21,20 +22,23 @@
       justify-content: space-between;
       width: max-content;
       margin: 0 auto;
+      opacity: 0.5;
       .nav-item {
         width: 20px;
         height: 20px;
         border-radius: 100%;
         line-height: 20px;
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         color: #fff;
         margin: 0 5px;
-        background: #ccc;
+        background: #999;
         transition: 0.1s;
+        -webkit-user-drag: none;
         &:hover {
           background: #777;
           transform-origin: top;
+        opacity: 1;
         }
       }
       .active {

@@ -60,47 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var $ = __webpack_require__(1);
-var artT = __webpack_require__(2);
-
-var Slide = __webpack_require__(14);
-var Nav = __webpack_require__(21);
-
-__webpack_require__(8);
-
-!function () {
-  console.log('%cweb \u2193', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
-  console.log('%csl\u2191de', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
-
-  var data = {
-    title: 'web-slide'
-  };
-
-  function render() {
-    var tpl = __webpack_require__(9)();
-    var tplRender = artT.compile(tpl);
-    $('#root').html(tplRender(data));
-  }
-  function init() {
-    render();
-    Slide.init();
-    Nav.init();
-  }
-  init();
-}();
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10471,7 +10435,7 @@ return jQuery;
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -10480,16 +10444,73 @@ return jQuery;
  * Released under the MIT, BSD, and GPL Licenses
  */
 
-var node = __webpack_require__(3);
-var template = __webpack_require__(7);
+var node = __webpack_require__(4);
+var template = __webpack_require__(8);
 module.exports = node(template);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(0);
+var SlideContent = __webpack_require__(10);
+
+var Config = {};
+$.extend(Config, SlideContent);
+
+module.exports = Config;
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var fs = __webpack_require__(4);
-var path = __webpack_require__(5);
+"use strict";
+
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+var Slide = __webpack_require__(9);
+var Nav = __webpack_require__(13);
+var Page = __webpack_require__(25);
+var PlayButton = __webpack_require__(26);
+
+var SlideConfig = __webpack_require__(24);
+
+__webpack_require__(16);
+
+!function () {
+  console.log('%cweb \u2193', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
+  console.log('%csl\u2191de', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
+
+  var data = {
+    title: 'web-slide'
+  };
+
+  function render() {
+    var tpl = __webpack_require__(17)();
+    var tplRender = artT.compile(tpl);
+    $('#root').html(tplRender(data));
+  }
+  function init() {
+    render();
+    Slide.init();
+    Page.init();
+    SlideConfig.playBtns.show && PlayButton.init();
+    SlideConfig.nav.show && Nav.init();
+  }
+  init();
+}();
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fs = __webpack_require__(5);
+var path = __webpack_require__(6);
 
 module.exports = function (template) {
 
@@ -10580,13 +10601,13 @@ module.exports = function (template) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -10814,10 +10835,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -11007,7 +11028,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11754,42 +11775,18 @@ if (true) {
 })();
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
 /* 9 */
-/***/ (function(module, exports) {
-
-module.exports = function (obj) {
-obj || (obj = {});
-var __t, __p = '';
-with (obj) {
-__p += '<div id="global-wrapper">\r\n  <div class="slides"></div>\r\n  <div class="nav"></div>\r\n</div>';
-
-}
-return __p
-}
-
-/***/ }),
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var $ = __webpack_require__(1);
-var artT = __webpack_require__(2);
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
 
-var Config = __webpack_require__(18);
+var Config = __webpack_require__(2);
 
-__webpack_require__(15);
+__webpack_require__(11);
 
 var Slide = function () {
   var _e = {
@@ -11808,7 +11805,7 @@ var Slide = function () {
   }
 
   function render() {
-    var tpl = __webpack_require__(16)();
+    var tpl = __webpack_require__(12)();
     var tplRender = artT.compile(tpl);
     $(_e.wrapper).html(tplRender(data));
   }
@@ -11819,44 +11816,7 @@ var Slide = function () {
 module.exports = Slide;
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-module.exports = function (obj) {
-obj || (obj = {});
-var __t, __p = '';
-with (obj) {
-__p += '{{each slides as item index}}\r\n<div class="slide" id="page-{{index+1}}">\r\n  <h1>{{item.title}}</h1>\r\n  <p>{{item.content}}</p>\r\n</div>\r\n{{/each}}';
-
-}
-return __p
-}
-
-/***/ }),
-/* 17 */,
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var $ = __webpack_require__(1);
-var SlideContent = __webpack_require__(20);
-
-var Config = {};
-$.extend(Config, SlideContent);
-
-module.exports = Config;
-
-/***/ }),
-/* 19 */,
-/* 20 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11864,70 +11824,72 @@ module.exports = Config;
 
 var SlideContent = {
   slides: [{
+    totalTitle: 'hello world',
     title: 'hello world1',
-    content: 'hey, this is web-slide'
-  }, {
-    title: 'hello world2',
-    content: 'this is web-slide'
-  }, {
-    title: 'hello world3',
-    content: 'this is web-slide'
-  }, {
-    title: 'hello world1',
-    content: 'hey, this is web-slide'
-  }, {
-    title: 'hello world2',
-    content: 'this is web-slide'
-  }, {
-    title: 'hello world3',
-    content: 'this is web-slide'
+    subTitle: 'hello world1',
+    content: ['hey, this is web-slide', 'hey, this is web-slide', 'hey, this is web-slide'],
+    ul: ['item-1', 'item-2', 'item-3'],
+    ol: ['item-1', 'item-2', 'item-3'],
+    imgs: ['https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg', 'https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg', 'https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg']
   }, {
     title: 'hello world1',
-    content: 'hey, this is web-slide'
-  }, {
-    title: 'hello world2',
-    content: 'this is web-slide'
-  }, {
-    title: 'hello world3',
-    content: 'this is web-slide'
+    subTitle: 'hello world1',
+    content: ['hey, this is web-slide', 'hey, this is web-slide', 'hey, this is web-slide']
   }, {
     title: 'hello world1',
-    content: 'hey, this is web-slide'
-  }, {
-    title: 'hello world2',
-    content: 'this is web-slide'
-  }, {
-    title: 'hello world3',
-    content: 'this is web-slide'
+    subTitle: 'hello world1',
+    ul: ['item-1', 'item-2', 'item-3'],
+    ol: ['item-1', 'item-2', 'item-3']
   }]
 };
 
 module.exports = SlideContent;
 
 /***/ }),
-/* 21 */
+/* 11 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '{{each slides as item index}}\r\n<div class="slide" id="page-{{index+1}}">\r\n  <h1>{{item.totalTitle}}</h1>\r\n  <h2>{{item.title}}</h2>\r\n  <h3>{{item.subTitle}}</h3>\r\n  {{each item.content as content}}\r\n  <p>{{content}}</p>\r\n  {{/each}}\r\n  <ul>\r\n    {{each item.ul as ulItem}}\r\n    <li>{{ulItem}}</li>\r\n    {{/each}}\r\n  </ul>\r\n  <ol>\r\n    {{each item.ol as olItem}}\r\n    <li>{{olItem}}</li>\r\n    {{/each}}\r\n  </ol>\r\n  <div class="imgs">\r\n    {{each item.imgs as img}}\r\n    <img src={{img}}>\r\n    {{/each}}\r\n  </div>\r\n</div>\r\n{{/each}}';
+
+}
+return __p
+}
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var $ = __webpack_require__(1);
-var artT = __webpack_require__(2);
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
 
-var Config = __webpack_require__(18);
+var Config = __webpack_require__(2);
 
-__webpack_require__(22);
+__webpack_require__(14);
 
 var Nav = function () {
   var _e = {
     wrapper: '.nav',
     navIndex: '.nav-index',
+    navItems: '.nav-items',
     item: {
       ele: '.nav-item'
     },
     arrow: {
-      prev: '.prev',
-      next: '.next'
+      prev: '.nav .prev',
+      next: '.nav .next'
     }
   };
 
@@ -11950,6 +11912,18 @@ var Nav = function () {
 
     $(_e.arrow.next).on('click', function () {
       next();
+    });
+
+    $(window).on('resize', function () {
+      refreshNav();
+    });
+
+    $(window).on('keydown', function () {
+      refreshNav();
+    });
+
+    $('body').on('click', '.play-btn', function () {
+      refreshNav();
     });
   };
 
@@ -11979,6 +11953,17 @@ var Nav = function () {
     $(_e.navIndex).scrollLeft(offset);
   }
 
+  // 让当前index居中
+  function indexCenter() {
+    var scrollWidth = $(_e.navItems).width();
+    var wrapperWidth = $(_e.navIndex).width();
+    var itemWidth = scrollWidth / data.nav.length;
+
+    var curIdx = location.hash.split('-')[1];
+    var offset = itemWidth * curIdx - wrapperWidth / 2 - itemWidth / 2;
+    $(_e.navIndex).scrollLeft(offset);
+  }
+
   /**
    * 按钮根据hash刷新激活状态
    */
@@ -11987,6 +11972,7 @@ var Nav = function () {
       var ele = location.hash.split('#')[1] || 'page-1';
       var dataEle = '[data-page=' + ele + ']';
       refresh(dataEle);
+      indexCenter();
     }, 0);
   }
 
@@ -12006,7 +11992,7 @@ var Nav = function () {
   }
 
   function render() {
-    var tpl = __webpack_require__(23)();
+    var tpl = __webpack_require__(15)();
     var tplRender = artT.compile(tpl);
     $(_e.wrapper).html(tplRender(data));
   }
@@ -12017,13 +12003,13 @@ var Nav = function () {
 module.exports = Nav;
 
 /***/ }),
-/* 22 */
+/* 14 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 23 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function (obj) {
@@ -12031,6 +12017,184 @@ obj || (obj = {});
 var __t, __p = '';
 with (obj) {
 __p += '\r\n<div class="prev nav-arrow">◀</div>\r\n<div class="nav-index">\r\n  <div class="nav-items">\r\n    {{each nav as item index}}\r\n      <a href="#page-{{index+1}}" class="nav-item" data-page="page-{{index+1}}">\r\n        {{index+1}}\r\n      </a>\r\n    {{/each}}\r\n  </div>\r\n</div>\r\n<div class="next nav-arrow">▶</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div id="global-wrapper">\r\n  <div class="slides"></div>\r\n  <div class="nav"></div>\r\n  <div class="play-btns"></div>\r\n</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var SlideConfig = {
+  nav: {
+    show: true
+  },
+  playBtns: {
+    show: true
+  }
+};
+
+module.exports = SlideConfig;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(0);
+
+var Config = __webpack_require__(2);
+
+var Page = function () {
+  var _e = {};
+
+  var data = {};
+
+  _e.init = function () {
+    initConfig();
+    $(window).on('keydown', function (e) {
+      switch (e.keyCode) {
+        case 32:
+        case 39:
+        case 40:
+          _e.next();
+          break;
+        case 8:
+        case 37:
+        case 38:
+          _e.prev();
+          break;
+      }
+    });
+  };
+
+  _e.prev = function () {
+    changePage(-1);
+  };
+
+  _e.next = function () {
+    changePage(1);
+  };
+
+  function changePage(mode) {
+    var curIdx = Number(location.hash.split('-')[1]);
+    var length = data.slides.length;
+    var nextIdx = curIdx < length ? curIdx + 1 : curIdx;
+    var prevIdx = curIdx > 1 ? curIdx - 1 : curIdx;
+    if (mode === -1) {
+      location.hash = '#page-' + prevIdx;
+    }
+    if (mode === 1) {
+      location.hash = '#page-' + nextIdx;
+    }
+  }
+
+  function initConfig() {
+    $.extend(data, Config);
+  }
+
+  return _e;
+}();
+
+module.exports = Page;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+var Page = __webpack_require__(25);
+var Config = __webpack_require__(2);
+
+__webpack_require__(27);
+
+var PlayButton = function () {
+  var _e = {
+    wrapper: '.play-btns',
+    prev: '.play-btns .prev',
+    next: '.play-btns .next'
+  };
+
+  var data = {};
+
+  _e.init = function () {
+    initConfig();
+    render();
+    $(_e.prev).on('click', function () {
+      Page.prev();
+    });
+    $(_e.next).on('click', function () {
+      Page.next();
+    });
+  };
+
+  function initConfig() {
+    $.extend(data, Config);
+  }
+
+  function render() {
+    var tpl = __webpack_require__(28)();
+    var tplRender = artT.compile(tpl);
+    $(_e.wrapper).html(tplRender(data));
+  }
+
+  return _e;
+}();
+
+module.exports = PlayButton;
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div class="play-btn prev">&lt</div>\r\n<div class="play-btn next">&gt</div>';
 
 }
 return __p

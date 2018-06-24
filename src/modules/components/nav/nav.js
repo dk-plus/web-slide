@@ -9,13 +9,14 @@ const Nav = (() => {
   const _e = {
     wrapper: '.nav',
     navIndex: '.nav-index',
+    navItems: '.nav-items',
     item: {
       ele: '.nav-item'
     },
     arrow: {
-      prev: '.prev',
-      next: '.next'
-    }
+      prev: '.nav .prev',
+      next: '.nav .next'
+    },
   };
 
   let data = {
@@ -37,6 +38,18 @@ const Nav = (() => {
 
     $(_e.arrow.next).on('click', () => {
       next();
+    });
+
+    $(window).on('resize', () => {
+      refreshNav();
+    });
+
+    $(window).on('keydown', () => {
+      refreshNav();
+    });
+
+    $('body').on('click', '.play-btn', () => {
+      refreshNav();
     });
   }
 
@@ -66,6 +79,17 @@ const Nav = (() => {
     $(_e.navIndex).scrollLeft(offset);
   }
 
+  // 让当前index居中
+  function indexCenter() {
+    let scrollWidth = $(_e.navItems).width();
+    let wrapperWidth = $(_e.navIndex).width();
+    let itemWidth = scrollWidth / data.nav.length;
+
+    let curIdx = location.hash.split('-')[1];
+    let offset = itemWidth * curIdx - wrapperWidth/2 - itemWidth/2;
+    $(_e.navIndex).scrollLeft(offset);
+  }
+
   /**
    * 按钮根据hash刷新激活状态
    */
@@ -74,6 +98,7 @@ const Nav = (() => {
       let ele = location.hash.split('#')[1] || 'page-1';
       let dataEle = `[data-page=${ele}]`;
       refresh(dataEle);
+      indexCenter();
     }, 0);
   }
 
