@@ -1,3 +1,5 @@
 node_modules
 test/
-.vscode
+package-lock.json
+yarn.lock
+src/modules/components/make_file.js

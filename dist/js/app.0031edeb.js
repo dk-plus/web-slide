@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10455,13 +10455,19 @@ module.exports = node(template);
 "use strict";
 
 
-var $ = __webpack_require__(0);
-var SlideContent = __webpack_require__(10);
+var Render = __webpack_require__(3);
+var Utils = __webpack_require__(39);
 
-var Config = {};
-$.extend(Config, SlideContent);
+__webpack_require__(40);
 
-module.exports = Config;
+!function () {
+  console.styleText({
+    text: 'slider',
+    style: '\n        color: #fff;\n        background: #108ee9;\n        border-radius: 20px;\n        padding: 5px;\n      '
+  });
+
+  Render.init();
+}();
 
 /***/ }),
 /* 3 */
@@ -10470,40 +10476,38 @@ module.exports = Config;
 "use strict";
 
 
+/**
+ * 总渲染模块
+ */
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(1);
+var Slider = __webpack_require__(9);
 
-var Slide = __webpack_require__(9);
-var Nav = __webpack_require__(13);
-var Page = __webpack_require__(25);
-var PlayButton = __webpack_require__(26);
+__webpack_require__(37);
 
-var SlideConfig = __webpack_require__(24);
-
-__webpack_require__(16);
-
-!function () {
-  console.log('%cweb \u2193', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
-  console.log('%csl\u2191de', '\n    background: rgb(23, 104, 211);\n    color: #fff;\n    padding: 0 5px;\n    font-size: 18px;\n  ');
+var Render = function () {
+  var _e = {};
 
   var data = {
     title: 'web-slide'
   };
 
+  _e.init = function () {
+    console.log('render init...');
+    render();
+    Slider.init();
+  };
+
   function render() {
-    var tpl = __webpack_require__(17)();
+    var tpl = __webpack_require__(38)();
     var tplRender = artT.compile(tpl);
     $('#root').html(tplRender(data));
   }
-  function init() {
-    render();
-    Slide.init();
-    Page.init();
-    SlideConfig.playBtns.show && PlayButton.init();
-    SlideConfig.nav.show && Nav.init();
-  }
-  init();
+
+  return _e;
 }();
+
+module.exports = Render;
 
 /***/ }),
 /* 4 */
@@ -11784,36 +11788,119 @@ if (true) {
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(1);
 
-var Config = __webpack_require__(2);
+var Page = __webpack_require__(10);
+var Toast = __webpack_require__(13);
 
-__webpack_require__(11);
+__webpack_require__(16);
 
-var Slide = function () {
-  var _e = {
-    wrapper: '.slides'
+var Slider = function () {
+
+  // 该模块
+  var _e = {};
+
+  // 操作dom
+  var ele = {
+    ROOT: '#test',
+    PAGE_KEY: 'page',
+    PAGE_CLASS: '.page'
   };
 
-  var data = {};
+  // 全局操作数据
+  var _g = {
+    cur: location.hash.match(/\d+/) && Number(location.hash.match(/\d+/)[0]) || 1
+  };
 
-  _e.init = function () {
-    initConfig();
+  // 枚举
+  var ENUM = {};
+
+  // 开发配置
+  var config = {
+    mockMode: true
+
+    // 前一页
+  };_e.prev = function () {
+    if (_g.cur - 1 <= 0) {
+      Toast.show('已经是第一页了');
+      return;
+    }
+    _g.cur -= 1;
+    _e.jumpTo(_g.cur);
+  };
+
+  // 后一页
+  _e.next = function () {
+    var length = $(ele.PAGE_CLASS).length;
+    if (_g.cur >= length) {
+      Toast.show('已经是最后一页了');
+      return;
+    }
+    _g.cur += 1;
+    _e.jumpTo(_g.cur);
+  };
+
+  // 跳转某页
+  _e.jumpTo = function (pageNum) {
+    $(ele.PAGE_CLASS).hide();
+    var curKey = '#' + ele.PAGE_KEY + pageNum;
+
+    location.hash = curKey;
+    $(curKey).show();
+  };
+
+  // 初始化
+  _e.init = function (option) {
+    option = option || {};
+    var _option = option,
+        _option$callback = _option.callback,
+        callback = _option$callback === undefined ? function () {} : _option$callback;
+
     render();
+    __webpack_require__(17).forEach(function (item, index) {
+      $('.slider').append(Page.render({
+        key: item.key || 'page' + (index + 1),
+        content: item.content || '',
+        fx: item.fx || 'slideInRight',
+        sec: item.sec
+      }));
+    });
+    _e.jumpTo(_g.cur);
+    Toast.init();
+    initEvent();
+    callback && typeof callback === 'function' && callback();
   };
 
-  function initConfig() {
-    $.extend(data, Config);
+  // 渲染函数
+  function render() {
+    var tpl = __webpack_require__(36)();
+    var tplRender = artT.compile(tpl);
+
+    $(ele.ROOT).html(tplRender(_g.data));
   }
 
-  function render() {
-    var tpl = __webpack_require__(12)();
-    var tplRender = artT.compile(tpl);
-    $(_e.wrapper).html(tplRender(data));
+  // 初始化事件
+  function initEvent() {
+    $(window).on('keydown', function (e) {
+      switch (e.keyCode) {
+        case 37:
+        case 38:
+        case 8:
+          _e.prev();
+          break;
+        case 39:
+        case 40:
+        case 32:
+          _e.next();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   return _e;
 }();
 
-module.exports = Slide;
+module.exports = Slider;
 
 /***/ }),
 /* 10 */
@@ -11822,28 +11909,50 @@ module.exports = Slide;
 "use strict";
 
 
-var SlideContent = {
-  slides: [{
-    totalTitle: 'hello world',
-    title: 'hello world1',
-    subTitle: 'hello world1',
-    content: ['hey, this is web-slide', 'hey, this is web-slide', 'hey, this is web-slide'],
-    ul: ['item-1', 'item-2', 'item-3'],
-    ol: ['item-1', 'item-2', 'item-3'],
-    imgs: ['https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg', 'https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg', 'https://ss2.bdstatic.com/8_V1bjqh_Q23odCf/pacific/1547755565.jpg']
-  }, {
-    title: 'hello world1',
-    subTitle: 'hello world1',
-    content: ['hey, this is web-slide', 'hey, this is web-slide', 'hey, this is web-slide']
-  }, {
-    title: 'hello world1',
-    subTitle: 'hello world1',
-    ul: ['item-1', 'item-2', 'item-3'],
-    ol: ['item-1', 'item-2', 'item-3']
-  }]
-};
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-module.exports = SlideContent;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(11);
+
+// 常量
+var NAME = 'Page';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var Page = function () {
+  // 构造函数
+  function Page(option) {
+    _classCallCheck(this, Page);
+
+    this.option = option;
+  }
+
+  _createClass(Page, null, [{
+    key: 'render',
+    value: function render(option) {
+      var key = option.key,
+          content = option.content,
+          fx = option.fx,
+          sec = option.sec;
+
+
+      var tpl = __webpack_require__(12)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender({ key: key, content: content, fx: fx, sec: sec });
+    }
+  }]);
+
+  return Page;
+}();
+
+module.exports = Page;
 
 /***/ }),
 /* 11 */
@@ -11855,11 +11964,11 @@ module.exports = SlideContent;
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = function (obj) {
+module.exports = function(obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '{{each slides as item index}}\r\n<div class="slide" id="page-{{index+1}}">\r\n  <h1>{{item.totalTitle}}</h1>\r\n  <h2>{{item.title}}</h2>\r\n  <h3>{{item.subTitle}}</h3>\r\n  {{each item.content as content}}\r\n  <p>{{content}}</p>\r\n  {{/each}}\r\n  <ul>\r\n    {{each item.ul as ulItem}}\r\n    <li>{{ulItem}}</li>\r\n    {{/each}}\r\n  </ul>\r\n  <ol>\r\n    {{each item.ol as olItem}}\r\n    <li>{{olItem}}</li>\r\n    {{/each}}\r\n  </ol>\r\n  <div class="imgs">\r\n    {{each item.imgs as img}}\r\n    <img src={{img}}>\r\n    {{/each}}\r\n  </div>\r\n</div>\r\n{{/each}}';
+__p += '<div id="{{key}}" \r\n  class="page {{fx || \'default\'}}" \r\n  style="{{sec && \'animation-duration:\' + sec}}"\r\n>\r\n  <div class="content">{{#content}}</div>\r\n</div>';
 
 }
 return __p
@@ -11875,132 +11984,80 @@ return __p
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(1);
 
-var Config = __webpack_require__(2);
-
 __webpack_require__(14);
 
-var Nav = function () {
-  var _e = {
-    wrapper: '.nav',
-    navIndex: '.nav-index',
-    navItems: '.nav-items',
-    item: {
-      ele: '.nav-item'
-    },
-    arrow: {
-      prev: '.nav .prev',
-      next: '.nav .next'
-    }
+var Toast = function () {
+
+  // 该模块
+  var _e = {};
+
+  // 操作dom
+  var ele = {
+    ROOT: '#root',
+    TOAST: '#toast',
+    FADE_IN: 'fadeIn',
+    FADE_OUT: 'fadeOut'
   };
 
-  var data = {
-    nav: []
+  // 全局操作数据
+  var _g = {
+    // 渲染数据
+    data: {}
   };
 
-  _e.init = function () {
-    initConfig();
-    initNav(data.slides.length);
+  // 枚举
+  var ENUM = {};
+
+  // 开发配置
+  var config = {
+    mockMode: true
+
+    // 初始化
+  };_e.init = function () {
     render();
-
-    $(_e.item.ele).on('click', function () {
-      refreshNav();
-    });
-
-    $(_e.arrow.prev).on('click', function () {
-      prev();
-    });
-
-    $(_e.arrow.next).on('click', function () {
-      next();
-    });
-
-    $(window).on('resize', function () {
-      refreshNav();
-    });
-
-    $(window).on('keydown', function () {
-      refreshNav();
-    });
-
-    $('body').on('click', '.play-btn', function () {
-      refreshNav();
-    });
   };
 
-  function initConfig() {
-    $.extend(data, Config);
-  }
-
-  function initNav(length) {
-    for (var i = 0; i < length; i++) {
-      data.nav.push(1);
-    }
-    refreshNav();
-  }
-
-  /**
-   * 导航页翻页
-   */
-  function prev() {
-    var width = $(_e.navIndex).width();
-    var offset = $(_e.navIndex).scrollLeft() - width / 2;
-    $(_e.navIndex).scrollLeft(offset);
-  }
-
-  function next() {
-    var width = $(_e.navIndex).width();
-    var offset = $(_e.navIndex).scrollLeft() + width / 2;
-    $(_e.navIndex).scrollLeft(offset);
-  }
-
-  // 让当前index居中
-  function indexCenter() {
-    var scrollWidth = $(_e.navItems).width();
-    var wrapperWidth = $(_e.navIndex).width();
-    var itemWidth = scrollWidth / data.nav.length;
-
-    var curIdx = location.hash.split('-')[1];
-    var offset = itemWidth * curIdx - wrapperWidth / 2 - itemWidth / 2;
-    $(_e.navIndex).scrollLeft(offset);
-  }
-
-  /**
-   * 按钮根据hash刷新激活状态
-   */
-  function refreshNav() {
+  _e.show = function (text) {
+    fadeIn();
+    $(ele.TOAST).html(text);
+    $(ele.TOAST).show();
     setTimeout(function () {
-      var ele = location.hash.split('#')[1] || 'page-1';
-      var dataEle = '[data-page=' + ele + ']';
-      refresh(dataEle);
-      indexCenter();
-    }, 0);
+      _e.hide();
+    }, 1000);
+  };
+
+  _e.hide = function (text) {
+    fadeOut();
+    setTimeout(function () {
+      $(ele.TOAST).hide();
+    }, 1000);
+  };
+
+  function fadeIn() {
+    $(ele.TOAST).addClass(ele.FADE_IN);
+    $(ele.TOAST).removeClass(ele.FADE_OUT);
   }
 
-  function refresh(ele) {
-    process();
-    activate(ele);
+  function fadeOut() {
+    $(ele.TOAST).addClass(ele.FADE_OUT);
+    $(ele.TOAST).removeClass(ele.FADE_IN);
   }
 
-  function process() {
-    $(_e.item.ele).each(function (index, item) {
-      $(item).removeClass('active');
-    });
-  }
-
-  function activate(ele) {
-    $(ele).addClass('active');
-  }
-
-  function render() {
+  // 渲染函数
+  function render(text) {
     var tpl = __webpack_require__(15)();
     var tplRender = artT.compile(tpl);
-    $(_e.wrapper).html(tplRender(data));
+
+    $(ele.ROOT).append(tplRender());
   }
+
+  // 初始化事件
+  function initEvent() {}
 
   return _e;
 }();
 
-module.exports = Nav;
+module.exports = Toast;
 
 /***/ }),
 /* 14 */
@@ -12012,11 +12069,11 @@ module.exports = Nav;
 /* 15 */
 /***/ (function(module, exports) {
 
-module.exports = function (obj) {
+module.exports = function(obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '\r\n<div class="prev nav-arrow">◀</div>\r\n<div class="nav-index">\r\n  <div class="nav-items">\r\n    {{each nav as item index}}\r\n      <a href="#page-{{index+1}}" class="nav-item" data-page="page-{{index+1}}">\r\n        {{index+1}}\r\n      </a>\r\n    {{/each}}\r\n  </div>\r\n</div>\r\n<div class="next nav-arrow">▶</div>';
+__p += '<div id="toast" class="toast"></div>';
 
 }
 return __p
@@ -12030,174 +12087,728 @@ return __p
 
 /***/ }),
 /* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var List = __webpack_require__(18);
+var Fragment = __webpack_require__(21);
+var Paragraph = __webpack_require__(24);
+var KeyValueMap = __webpack_require__(27);
+var MixTitle = __webpack_require__(30);
+var Avater = __webpack_require__(33);
+
+module.exports = [{
+  content: '<h1 style="text-align:center;font-size:30px">web-slide</h1>',
+  fx: 'slideInLeft'
+  // sec: '1s',
+}, {
+  content: Fragment.render({
+    data: [List.render({
+      type: 'tag',
+      data: ['FE', 'dkplus', 'Man United', 'Javascript']
+    }), List.render({
+      type: 'ol',
+      data: ['web-slide', 'lazy-slide', 'slider']
+    })]
+  }),
+  fx: 'slideInLeft'
+  // sec: '1s',
+}, {
+  content: List.render({
+    type: 'tag',
+    data: ['tag1', 'tag2', 'tag3', 'tag4']
+  }),
+  fx: 'slideInRight'
+  // sec: '2s',
+}, {
+  content: Paragraph.render({
+    // type: 'quote',
+    data: ['this paragragh 1, this paragragh 1, this paragragh 1, this paragragh 1, this paragragh 1, this paragragh 1, so long paragragh', 'this paragragh 2', 'this paragragh 3', 'this paragragh 4']
+  }),
+  fx: 'bounceInUp'
+}, {
+  content: Paragraph.render({
+    type: 'quote',
+    data: ['this quote 1, this quote 1, this quote 1, this quote 1, this quote 1, this quote 1, this quote 1, this quote 1, the long quote too', 'this quote 2', 'this quote 3', 'this quote 4']
+  })
+}, {
+  content: KeyValueMap.render({
+    type: 'text',
+    data: [{
+      key: 'Project',
+      value: 'web-slide'
+    }, {
+      key: 'Author',
+      value: 'dkplus'
+    }, {
+      key: 'Github',
+      value: 'https://github.com/dk-plus/web-slide',
+      type: 'link'
+    }]
+  })
+}, {
+  content: KeyValueMap.render({
+    type: 'progress',
+    data: [{
+      key: 'HTML',
+      value: 50
+    }, {
+      key: 'JS',
+      value: 70
+    }, {
+      key: 'CSS',
+      value: 20
+    }]
+  })
+}, {
+  content: Fragment.render({
+    data: [MixTitle.render({
+      type: 'default',
+      size: 'normal',
+      data: {
+        type: 'default',
+        title: '阿里巴巴',
+        extra: '2018-01 - 至今'
+      }
+    }), MixTitle.render({
+      type: 'display-y',
+      size: 'normal',
+      data: {
+        type: 'default',
+        title: 'dkplus',
+        extra: 'Front-End Engineer'
+      }
+    })]
+  })
+}, {
+  content: Fragment.render({
+    data: [Avater.render({
+      type: 'default',
+      imgStyle: 'default',
+      width: 300,
+      height: 200,
+      src: './images/test1.jpg',
+      desc: 'default,default,300,200'
+    }), Avater.render({
+      type: 'circle-border',
+      imgStyle: 'height-first',
+      width: 100,
+      height: 100,
+      src: './images/avater.jpg',
+      desc: 'circle-border,height-first,100,100'
+    }), Avater.render({
+      type: 'circle-border',
+      imgStyle: 'width-first',
+      src: './images/test1.jpg',
+      offsetX: 0,
+      offsetY: 10,
+      desc: 'circle-border,width-first,offsetX0,offsetY10'
+    })]
+  })
+}, {
+  content: '<h1 style="text-align:center;font-size:30px">Goodbye</h1>'
+}];
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(19);
+
+// 常量
+var NAME = 'List';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var List = function () {
+  // 构造函数
+  function List(option) {
+    _classCallCheck(this, List);
+
+    this.option = option;
+  }
+
+  _createClass(List, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(20)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender(data);
+    }
+  }]);
+
+  return List;
+}();
+
+module.exports = List;
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports) {
 
-module.exports = function (obj) {
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '<div id="global-wrapper">\r\n  <div class="slides"></div>\r\n  <div class="nav"></div>\r\n  <div class="play-btns"></div>\r\n</div>';
+__p += '<div class="list">\r\n  {{if type === \'ul\'}}\r\n    <ul class="ul-list">\r\n      {{each data as item index}}\r\n        <li>· {{item}}</li>\r\n      {{/each}}\r\n    </ul>\r\n  {{/if}}\r\n  {{if type === \'ol\'}}\r\n    <ol class="ol-list">\r\n      {{each data as item index}}\r\n        <li>{{index+1}}. {{item}}</li>\r\n      {{/each}}\r\n    </ol>\r\n  {{/if}}\r\n  {{if type === \'tag\'}}\r\n    <ul class="tag-list">\r\n      {{each data as item index}}\r\n        <li>{{item}}</li>\r\n      {{/each}}\r\n    </ul>\r\n  {{/if}}\r\n</div>';
 
 }
 return __p
 }
 
 /***/ }),
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(22);
+
+// 常量
+var NAME = 'Fragment';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var Fragment = function () {
+  // 构造函数
+  function Fragment(option) {
+    _classCallCheck(this, Fragment);
+
+    this.option = option;
+  }
+
+  _createClass(Fragment, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(23)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender(data);
+    }
+  }]);
+
+  return Fragment;
+}();
+
+module.exports = Fragment;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '{{each data as item index}}\r\n  {{#item}}\r\n{{/each}}';
+
+}
+return __p
+}
+
+/***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var SlideConfig = {
-  nav: {
-    show: true
-  },
-  playBtns: {
-    show: true
-  }
-};
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-module.exports = SlideConfig;
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var $ = __webpack_require__(0);
-
-var Config = __webpack_require__(2);
-
-var Page = function () {
-  var _e = {};
-
-  var data = {};
-
-  _e.init = function () {
-    initConfig();
-    $(window).on('keydown', function (e) {
-      switch (e.keyCode) {
-        case 32:
-        case 39:
-        case 40:
-          _e.next();
-          break;
-        case 8:
-        case 37:
-        case 38:
-          _e.prev();
-          break;
-      }
-    });
-  };
-
-  _e.prev = function () {
-    changePage(-1);
-  };
-
-  _e.next = function () {
-    changePage(1);
-  };
-
-  function changePage(mode) {
-    var curIdx = Number(location.hash.split('-')[1]);
-    var length = data.slides.length;
-    var nextIdx = curIdx < length ? curIdx + 1 : curIdx;
-    var prevIdx = curIdx > 1 ? curIdx - 1 : curIdx;
-    if (mode === -1) {
-      location.hash = '#page-' + prevIdx;
-    }
-    if (mode === 1) {
-      location.hash = '#page-' + nextIdx;
-    }
-  }
-
-  function initConfig() {
-    $.extend(data, Config);
-  }
-
-  return _e;
-}();
-
-module.exports = Page;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var $ = __webpack_require__(0);
 var artT = __webpack_require__(1);
 
-var Page = __webpack_require__(25);
-var Config = __webpack_require__(2);
+__webpack_require__(25);
 
-__webpack_require__(27);
+// 常量
+var NAME = 'Paragraph';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
 
-var PlayButton = function () {
-  var _e = {
-    wrapper: '.play-btns',
-    prev: '.play-btns .prev',
-    next: '.play-btns .next'
-  };
+var Paragraph = function () {
+  // 构造函数
+  function Paragraph(option) {
+    _classCallCheck(this, Paragraph);
 
-  var data = {};
-
-  _e.init = function () {
-    initConfig();
-    render();
-    $(_e.prev).on('click', function () {
-      Page.prev();
-    });
-    $(_e.next).on('click', function () {
-      Page.next();
-    });
-  };
-
-  function initConfig() {
-    $.extend(data, Config);
+    this.option = option;
   }
 
-  function render() {
-    var tpl = __webpack_require__(28)();
-    var tplRender = artT.compile(tpl);
-    $(_e.wrapper).html(tplRender(data));
-  }
+  _createClass(Paragraph, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(26)();
+      var tplRender = artT.compile(tpl);
 
-  return _e;
+      return tplRender(data);
+    }
+  }]);
+
+  return Paragraph;
 }();
 
-module.exports = PlayButton;
+module.exports = Paragraph;
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, exports) {
 
-module.exports = function (obj) {
+module.exports = function(obj) {
 obj || (obj = {});
 var __t, __p = '';
 with (obj) {
-__p += '<div class="play-btn prev">&lt</div>\r\n<div class="play-btn next">&gt</div>';
+__p += '<div class="paragraph-list {{if type === \'quote\'}}quote{{/if}}">\r\n  {{each data as item index}}\r\n    <p>{{item}}</p>\r\n  {{/each}}\r\n</div>';
 
 }
 return __p
+}
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(28);
+
+// 常量
+var NAME = 'KeyValueMap';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var KeyValueMap = function () {
+  // 构造函数
+  function KeyValueMap(option) {
+    _classCallCheck(this, KeyValueMap);
+
+    this.option = option;
+  }
+
+  _createClass(KeyValueMap, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(29)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender(data);
+    }
+  }]);
+
+  return KeyValueMap;
+}();
+
+module.exports = KeyValueMap;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '{{if type === \'text\'}}\r\n<div class="key-value-map">\r\n  {{each data as item index}}\r\n    <div class="item">\r\n      <div class="label">{{item.key}}：</div>\r\n      {{if item.type === \'link\'}}\r\n        <div class="value">\r\n          <a href="http://{{item.value}}">{{item.value}}</a>\r\n        </div>\r\n      {{else}}\r\n        <div class="value">{{item.value}}</div>\r\n      {{/if}}\r\n    </div>\r\n  {{/each}}\r\n</div>\r\n{{/if}}\r\n\r\n{{if type === \'progress\'}}\r\n<div class="key-value-map">\r\n  {{each data as item index}}\r\n    <div class="item">\r\n      <div class="label">{{item.key}}：</div>\r\n      <div class="progress-full-bar">\r\n        <div class="progress-value-bar" data-value={{item.value}} style="width: {{item.value}}%"></div>\r\n      </div>\r\n    </div>\r\n  {{/each}}\r\n</div>\r\n{{/if}}';
+
+}
+return __p
+}
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(31);
+
+// 常量
+var NAME = 'Title';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var Title = function () {
+  // 构造函数
+  function Title(option) {
+    _classCallCheck(this, Title);
+
+    this.option = option;
+  }
+
+  _createClass(Title, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(32)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender(data);
+    }
+  }]);
+
+  return Title;
+}();
+
+module.exports = Title;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div class="mix-title {{size}} {{type}}">\r\n  <div class="main-title">{{data.title}}</div>\r\n  <div class="extra">{{data.extra}}</div>\r\n</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = __webpack_require__(0);
+var artT = __webpack_require__(1);
+
+__webpack_require__(34);
+
+// 常量
+var NAME = 'Avater';
+var VERSION = '0.1.0';
+var ClassName = {};
+var Selector = {};
+var ENUM = {};
+
+var Avater = function () {
+  // 构造函数
+  function Avater(option) {
+    _classCallCheck(this, Avater);
+
+    this.option = option;
+  }
+
+  _createClass(Avater, null, [{
+    key: 'render',
+    value: function render(data) {
+      var tpl = __webpack_require__(35)();
+      var tplRender = artT.compile(tpl);
+
+      return tplRender(data);
+    }
+  }]);
+
+  return Avater;
+}();
+
+module.exports = Avater;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div class="avater {{type}}" \r\n  style="\r\n  {{if width}}\r\n    width:{{width}}px;\r\n  {{/if}}\r\n  {{if height}}\r\n    height:{{height}}px;\r\n  {{/if}}\r\n">\r\n  <img class="{{imgStyle}}" \r\n    src="{{src}}" \r\n    alt="{{desc}}" \r\n    title="{{desc}}"\r\n    style="\r\n      {{if offsetX}}\r\n        margin-left:{{offsetX}}px;\r\n      {{/if}}\r\n      {{if offsetY}}\r\n        margin-top:{{offsetY}}px;\r\n      {{/if}}\r\n    "\r\n  />\r\n</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div class="slider">\r\n  <div class="background"></div>\r\n</div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = function(obj) {
+obj || (obj = {});
+var __t, __p = '';
+with (obj) {
+__p += '<div id=\'test\'></div>';
+
+}
+return __p
+}
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Utils = function () {
+
+  var _e = {};
+
+  // 获取url查询参数
+  _e.getUrlParems = function () {
+
+    var _parem = {};
+    var url = window.location.href;
+    var parems = url.split('?')[1].split('#')[0];
+
+    parems.split('&').forEach(function (pair, index) {
+      var key = pair.split('=')[0];
+      var value = pair.split('=')[1];
+      _parem[key] = value;
+    });
+
+    return _parem;
+  };
+
+  // 设置url参数
+  _e.setUrlParems = function (obj) {
+    var url = window.location.href;
+    var hash = url.split('#')[1];
+    var keys = Object.keys(obj);
+    var parems = '';
+    var _parems = '';
+
+    keys.forEach(function (key, index) {
+      var begin = '&';
+      if (index === 0) {
+        begin = url.split('#')[0].indexOf('?') < 0 ? '?' : '&';
+      }
+      parems += '' + begin + key + '=' + obj[key];
+    });
+
+    _parems = decodeURIComponent(parems);
+    if (!hash) {
+      window.location.href = '' + url.split('#')[0] + _parems;
+    } else {
+      window.location.href = '' + url.split('#')[0] + _parems + '#' + hash;
+    }
+  };
+
+  // 判断是否数组
+  _e.isArray = function (arr) {
+    if (Array.isArray) {
+      return Array.isArray(arr);
+    }
+    return Object.prototype.toString.call(arr);
+  };
+
+  return _e;
+}();
+
+module.exports = Utils;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+try {
+
+  /**
+   * console支持的style属性
+   */
+  console.__proto__.styleSupport = function () {
+    console.groupCollapsed('console支持的样式属性');
+    console.table({
+      'padding': '✓',
+      'line-height': '✓',
+      'background': '✓',
+      'background-*': '✓',
+      'color': '✓',
+      'font-size': '✓',
+      'font-family': '✓',
+      'font-weight': '✓',
+      'font-style': '✓',
+      'webkit-font-smoothing': '✓',
+      'text-shadow': '✓',
+      'text-decoration': '✓',
+      'text-transform': '✓',
+      'letter-spacing': '✓',
+      'border': '✓',
+      'border-*': '✓',
+    });
+    console.groupEnd('console支持的样式属性');
+  }
+
+  /**
+   * 输出带样式的文本
+   * @param {*object} option 对象
+   */
+  console.__proto__.styleText = function (option) {
+
+    if (!option) {
+      console.groupCollapsed('请输入option');
+      console.table({
+        text: '文本',
+        style: '样式',
+      });
+      console.groupEnd('请输入option');
+      return;
+    }
+
+    const {
+      text = '',
+      style = '',
+    } = option;
+
+    console.log(`%c${text}`, style);
+  }
+
+  /**
+   * console输出图片
+   * @param {*object} option 对象
+   */
+  console.__proto__.img = function(option) {
+
+    if (!option) {
+      console.groupCollapsed('请输入option');
+      console.table({
+        url: '图片url',
+        width: '图片宽度',
+        height: '图片高度',
+        exStyle: '扩展样式',
+      });
+      console.groupEnd('请输入option');
+      return;
+    }
+
+    const {
+      url = '',
+      width = 100,
+      height = 100,
+      exStyle = '',
+    } = option;
+
+    if (!url) {
+      console.error('请输入url');
+      return;
+    }
+
+    let style = `
+      background: url(${url}) no-repeat;
+      padding: ${height / 2}px ${width / 2}px;
+      background-size: 100% 100%;
+    `
+    if (exStyle) {
+      style += exStyle;
+    }
+
+    console.log(`%c `, style);
+
+  }
+
+} catch (err) {
+  console.error(err);
 }
 
 /***/ })
