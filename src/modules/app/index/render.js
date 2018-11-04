@@ -17,7 +17,9 @@ const Render = (() => {
   _e.init = () => {
     console.log('render init...');
     render();
-    Slider.init();
+    Slider.init({
+      callback: require('../../../../slider/after_render.js')
+    });
   }
 
   function render() {

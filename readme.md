@@ -10,7 +10,7 @@
 
 ## Base Usage
 
-Edit the file: `cd ./src/modules/components/slider/pageForm.js` for the most simple usage:
+Edit the file: `./slider/content.js` for the most simple usage:
 
 ```javascript
 module.exports = [
@@ -40,6 +40,29 @@ module.exports = [
 - content: `<string>` || `<htmlString>` The content of web-slide.
 - fx: `<string>` The animation name in [animate.css](https://daneden.github.io/animate.css/).
 - sec: `<string>` The animation duration.
+
+## Css of the slider-page
+
+Edit the file: `./slider/content.less`.
+
+```javascript
+// ./slider/content.js
+
+module.exports = [
+  {
+    content: '<h1 class="big-title">web-slide</h1>',
+  },
+];
+```
+
+For example:
+```css
+/* ./slider/content.js */
+
+.big-title {
+  color: red;
+}
+```
 
 ## Extended Components
 
@@ -74,16 +97,11 @@ module.exports = [
 
 ## What's more?
 
-You can try to edit `./sec/modules/app/index/render.js`
+Try to edit `./slider/after_render.js` after the slider rendering. You can do anything here.
 
 ```
-const Slider = require('../../components/slider/slider.js');
-
-// Slider.init(); // base init
-
-Slider.init({
-  callback: () => {
-    // you can do anything after rendering...
-  }
-}); // callback init
+module.exports = () => {
+  console.log('this is callback');
+  // just code here...
+}
 ```
